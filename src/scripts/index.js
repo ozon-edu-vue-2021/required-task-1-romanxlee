@@ -33,6 +33,7 @@ const getPictures = function (page = 1, limit = 10) {
     fetch(`https://picsum.photos/v2/list?page=${page}&limit=${limit}`)
         .then(function (response) {return response.json()})
         .then(function (result) {renderPictures(result)})
+        .catch(err => console.log('Error: ', err))
 }
 
 /**
@@ -62,8 +63,8 @@ const showLoader = function () {
 const hideLoader = function () {
     loaderTimeout = setTimeout(function () {
         loader.style.visibility = 'hidden';
-        clearTimeout();
     }, 700);
+    clearTimeout();
 }
 
 /**
@@ -153,7 +154,6 @@ const togglePopup = function () {
 const actionHandler = function (evt) {
     evt.preventDefault();
     const nextPage = evt.currentTarget.dataset.page;
-    console.log(nextPage)
     evt.currentTarget.dataset.page = Number(nextPage) + 1;
 
     if (nextPage > MAX_PAGE_IMAGES) {
@@ -174,7 +174,6 @@ const imageHandler = function (evt) {
     evt.preventDefault();
 
     if (evt.target.closest('a')) {
-        console.log(evt.target.parentNode.dataset.id)
         getPictureInfo(evt.target.parentNode.dataset.id);
     }
 }
